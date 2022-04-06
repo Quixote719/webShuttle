@@ -135,6 +135,7 @@ module.exports = {
     // 生成html，自动引入所有bundle
     new HtmlWebpackPlugin({
       title: 'webpackDemo',
+      template: paths.appPublic + '/index.html',
     }),
   ],
 }
