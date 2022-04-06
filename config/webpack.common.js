@@ -9,11 +9,9 @@ const {
   isEnvDevelopment,
   isEnvProduction
 } = ctx
+const lessRegex = /\.less$/;
 
 loaderForStyle = isEnvProduction ? ['style-loader', MiniCssExtractPlugin.loader,] : ['style-loader']
-
-'style-loader',
-// isEnvProduction && MiniCssExtractPlugin.loader,
 
 module.exports = {
   // 入口
@@ -42,7 +40,7 @@ module.exports = {
     rules:[
       { // image
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        include: paths.appSrc,
+        include: [paths.appSrc],
         type: 'asset/resource',
       },
       { // font
@@ -70,7 +68,7 @@ module.exports = {
         include: paths.appSrc,
         use: [
           // style-loader 将 JS 字符串生成为 style 节点
-          ...loaderForStyle,
+          isEnvDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
           // css-loader 将 CSS 转化成 CommonJS 模块
           {
             loader: 'css-loader',
@@ -80,7 +78,7 @@ module.exports = {
               importLoaders: 1,
               // 0 => no loaders (default);
               // 1 => postcss-loader;
-              // 2 => postcss-loader, sass-loader
+              // 2 => postcss-loader, less-loader
             },
           },
           {
@@ -99,10 +97,10 @@ module.exports = {
         ],
       },
       { //less
-        test: /\.less$/,
+        test: lessRegex,
         include: paths.appSrc,
         use: [
-          ...loaderForStyle,
+          isEnvDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
           // css-loader 将 CSS 转化成 CommonJS 模块
           {
             loader: 'css-loader',
