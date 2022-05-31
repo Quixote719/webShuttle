@@ -9,7 +9,6 @@ import styles from '@/app.less'
 
 
 export default function App () {
-    console.log('styles001', styles)
     return (
         <div>
             <div className={styles.appTitle}>hello react</div>
